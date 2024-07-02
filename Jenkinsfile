@@ -8,6 +8,12 @@ pipeline {
   agent any
 
   stages {
+    
+    stage('Initialize'){
+       steps {
+         def dockerHome = tool 'MyDocker'
+         env.PATH = "${dockerHome}/bin:${env.PATH}"                }
+    }
 
     stage('Checkout Source') {
       steps {
@@ -16,11 +22,6 @@ pipeline {
           url: 'https://github.com/nebbog/jenkins-kubernetes-deployment.git'
         }
       }
-    }
-
-    stage('Initialize'){
-      def dockerHome = tool 'jdocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
 
     stage('Build image') {
