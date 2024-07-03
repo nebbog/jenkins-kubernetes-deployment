@@ -1,7 +1,7 @@
 pipeline {
 
   environment {
-    dockerimagename = "labtest.local:5000/react-app"
+    dockerimagename = "react-app"
     dockerImage = ""
   }
 
