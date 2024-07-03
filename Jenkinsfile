@@ -38,14 +38,26 @@ pipeline {
       }
     }
 
-    stage('Build-Docker-Image') {
-      steps {
-        container('docker') {
-          sh 'docker build -t  labtest.local:5000/react-app:latest .'
+   stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
         }
       }
     }
-
+   
+  stage('Pushing Image') {
+      environment {
+               registryCredential = ''
+           }
+      steps{
+        script {
+          docker.withRegistry( 'https://labtest.local:5000/', registryCredential ) {
+            dockerImage.push("latest")
+          }
+        }
+      }
+    }
     stage('Pushing Image') {
       steps{
         script {
