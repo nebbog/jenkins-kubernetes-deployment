@@ -41,23 +41,19 @@ pipeline {
    stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build dockerimagename
+          sh 'docker build -t labtest.local:5000/react-app . '
         }
       }
     }
    
   stage('Pushing Image') {
-      environment {
-               registryCredential = ''
-           }
       steps{
-        script {
-          docker.withRegistry( 'https://labtest.local:5000/', registryCredential ) {
-            dockerImage.push("latest")
+        script  {
+        sh 'docker push labtest.local:5000/react-app'
+
           }
         }
-      }
-    }
+   }
 
     stage('Deploying React.js container to Kubernetes') {
       steps {
