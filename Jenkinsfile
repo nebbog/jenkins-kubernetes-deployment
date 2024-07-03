@@ -49,13 +49,10 @@ pipeline {
     }
    
    stage('Pushing Image') {
-      environment {
-               registryCredential = ''
-           }
       steps{
         container('docker') {
           script {
-            docker.withRegistry( 'https://labtest.local:5000', registryCredential ) {
+            docker.withRegistry( 'https://labtest.local:5000', '' ) {
               dockerImage.push("latest")
             }
           }
