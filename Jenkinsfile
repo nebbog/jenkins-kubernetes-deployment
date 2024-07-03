@@ -24,9 +24,6 @@ pipeline {
           - name: docker-sock
             hostPath:
               path: /var/run/docker.sock    
-          - env:
-            - name: "DOCKER_TLS_CERTDIR"
-              value: ""
         '''
     }
   }
