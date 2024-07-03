@@ -49,7 +49,7 @@ pipeline {
   stage('Pushing Image') {
       steps{
         container('docker') {
-          sh 'docker push https://labtest.local:5000/react-app:latest'
+          sh 'docker push labtest.local:5000/react-app:latest'
          }
         }
    }
