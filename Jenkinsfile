@@ -63,14 +63,6 @@ pipeline {
       }
     }
 
-  stage('Pushing Image') {
-      steps{
-        container('docker') {
-          sh 'docker push labtest.local:5000/react-app:latest'
-         }
-        }
-   }
-
     stage('Deploying React.js container to Kubernetes') {
       steps {
         script {
