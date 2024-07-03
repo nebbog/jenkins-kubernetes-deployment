@@ -14,6 +14,9 @@ pipeline {
           containers:
           - name: docker
             image: docker:latest
+          env:
+          - name: DOCKER_TLS_CERTDIR
+            value: ""
             command:
             - cat
             tty: true
