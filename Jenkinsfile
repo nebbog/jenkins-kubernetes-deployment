@@ -15,7 +15,7 @@ pipeline {
           - name: docker
             image: docker:latest
             command:
-            - docker
+            - cat
             tty: true
             volumeMounts:
              - mountPath: /var/run/docker.sock
