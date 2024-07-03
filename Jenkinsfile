@@ -14,6 +14,9 @@ pipeline {
           containers:
           - name: docker
             image: docker:latest
+            env:
+            - name: DOCKER_INSECURE_REGISTRY
+              value: "labtest.local:5000"
             command:
             - cat
             tty: true
