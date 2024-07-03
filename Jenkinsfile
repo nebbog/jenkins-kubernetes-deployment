@@ -40,18 +40,17 @@ pipeline {
 
    stage('Build image') {
       steps{
-        script {
-          sh 'docker build -t labtest.local:5000/react-app . '
+        container('docker') {
+          sh 'docker build -t labtest.local:5000/react-app  .'
         }
       }
     }
    
   stage('Pushing Image') {
       steps{
-        script  {
-        sh 'docker push labtest.local:5000/react-app'
-
-          }
+        container('docker') {
+          sh 'docker push labtest.local:5000/react-app'
+         }
         }
    }
 
