@@ -14,9 +14,6 @@ pipeline {
           containers:
           - name: docker
             image: docker:latest
-          env:
-          - name: DOCKER_TLS_CERTDIR
-            value: ""
             command:
             - cat
             tty: true
@@ -27,6 +24,9 @@ pipeline {
           - name: docker-sock
             hostPath:
               path: /var/run/docker.sock    
+          - env:
+            - name: "DOCKER_TLS_CERTDIR"
+              value: ""
         '''
     }
   }
