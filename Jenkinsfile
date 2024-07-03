@@ -14,9 +14,6 @@ pipeline {
           containers:
           - name: docker
             image: docker:latest
-            env:
-            - name: DOCKER_INSECURE_REGISTRY
-              value: "labtest.local:5000"
             command:
             - cat
             tty: true
@@ -52,6 +49,9 @@ pipeline {
     }
    
    stage('Pushing Image') {
+     environment {
+       DOCKER_INSECURE_REGISTRY = 'labtest.local:5000'
+    }
       steps{
         container('docker') {
           script {
