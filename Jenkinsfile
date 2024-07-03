@@ -58,15 +58,6 @@ pipeline {
         }
       }
     }
-    stage('Pushing Image') {
-      steps{
-        script {
-          docker.withRegistry( 'http://labtest.local:5000/'  ) {
-            dockerImage.push("latest")
-          }
-        }
-      }
-    }
 
     stage('Deploying React.js container to Kubernetes') {
       steps {
