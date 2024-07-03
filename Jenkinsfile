@@ -5,16 +5,30 @@ pipeline {
     dockerImage = ""
   }
 
-  agent any
-
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: docker
+            image: docker:latest
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
+          volumes:
+          - name: docker-sock
+            hostPath:
+              path: /var/run/docker.sock    
+        '''
+    }
+  }
   stages {
     
-    stage('Initialize'){
-       steps {
-         def dockerHome = tool 'MyDocker'
-         env.PATH = "${dockerHome}/bin:${env.PATH}"                }
-    }
-
     stage('Checkout Source') {
       steps {
         script {
@@ -24,10 +38,10 @@ pipeline {
       }
     }
 
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
+    stage('Build-Docker-Image') {
+      steps {
+        container('docker') {
+          sh 'docker build -t  labtest.local:5000/react-app:latest .'
         }
       }
     }
