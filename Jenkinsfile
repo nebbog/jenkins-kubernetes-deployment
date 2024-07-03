@@ -41,7 +41,9 @@ pipeline {
    stage('Build image') {
       steps{
         container('docker') {
-          sh 'docker build -t labtest.local:5000/react-app:latest  .'
+          script {
+            dockerImage = docker.build dockerimagename
+          }
         }
       }
     }
