@@ -53,12 +53,14 @@ pipeline {
                registryCredential = 'Dockerhub-credentials'
            }
       steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+        container('docker') {
+          script {
+            docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
             dockerImage.push("latest")
           }
         }
       }
+    }
     }
 
     stage('Deploying React.js container to Kubernetes') {
