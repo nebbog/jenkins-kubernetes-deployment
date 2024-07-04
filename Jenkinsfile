@@ -66,7 +66,7 @@ pipeline {
 
    stage('Deploying React.js container to Kubernetes') {
      steps{
-        withKubeConfig([namespace: "devops-tools"]) {
+        withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.49.2:8443') {
           sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
           sh 'chmod u+x ./kubectl'  
           sh './kubectl get pods'
