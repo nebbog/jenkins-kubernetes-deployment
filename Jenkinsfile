@@ -1,7 +1,7 @@
 pipeline {
 
   environment {
-    dockerimagename = "react-app"
+    dockerimagename = "nebbog/react-app"
     dockerImage = ""
   }
 
@@ -49,15 +49,13 @@ pipeline {
     }
    
    stage('Pushing Image') {
-     environment {
-       DOCKER_INSECURE_REGISTRY = 'labtest.local:5000'
-    }
+      environment {
+               registryCredential = 'Dockerhub-credentials'
+           }
       steps{
-        container('docker') {
-          script {
-            docker.withRegistry( 'https://labtest.local:5000', '' ) {
-              dockerImage.push("latest")
-            }
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push("latest")
           }
         }
       }
