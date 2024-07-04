@@ -67,6 +67,9 @@ pipeline {
    stage('Deploying React.js container to Kubernetes') {
      steps{
         withKubeConfig([credentialsId: 'kubeconfig-credentials']) {
+          sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+          sh 'chmod u+x ./kubectl'  
+          sh './kubectl get pods
           sh 'kubectl apply -f deployment.yaml'
           sh 'kubectl apply -f my-kubernetes-directory'
         }
