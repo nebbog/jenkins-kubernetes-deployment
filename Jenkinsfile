@@ -66,7 +66,7 @@ pipeline {
 
    stage('Deploying React.js container to Kubernetes') {
      steps{
-        withKubeConfig([credentialsId: 'jenkins-deployer-secret', serverUrl: 'https://kubernetes.default.svc']) {
+        withKubeConfig([credentialsId: 'jenkins-deployer-secret']) {
           sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.30.2/bin/linux/amd64/kubectl"'  
           sh 'chmod u+x ./kubectl'  
           sh './kubectl get pods'
