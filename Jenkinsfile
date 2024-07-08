@@ -66,7 +66,7 @@ pipeline {
 
    stage('Deploying React.js container to Kubernetes') {
      steps{
-        withKubeConfig([ccaCertificate: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt',redentialsId: 'minikube-jenkins-secret', serverUrl: 'https://kubernetes.default.svc']) {
+        withKubeConfig([caCertificate: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt', credentialsId: 'minikube-jenkins-secret', serverUrl: 'https://kubernetes.default.svc']) {
           sh 'cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
           sh 'ls -lrth /var/run/secrets/kubernetes.io/serviceaccount'
           sh 'cat /var/run/secrets/kubernetes.io/serviceaccount/token'
