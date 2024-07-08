@@ -55,8 +55,7 @@ pipeline {
       steps{
         container('docker') {
           environment {
-               SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount
-               TOKEN=/var/run/secrets/kubernetes.io/serviceaccount/token
+               TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
            }
           script {
             docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
