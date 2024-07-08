@@ -54,6 +54,10 @@ pipeline {
            }
       steps{
         container('docker') {
+          environment {
+               SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount
+               TOKEN=$(cat ${SERVICEACCOUNT}/token)
+           }
           script {
             docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
             dockerImage.push("latest")
@@ -66,7 +70,7 @@ pipeline {
 
    stage('Deploying React.js container to Kubernetes') {
      steps{
-        withKubeConfig([caCertificate: 'MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5pa3ViZUNBMB4XDTI0MDYzMDA4MjU0M1oXDTM0MDYyOTA4MjU0M1owFTETMBEGA1UEAxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMUDic/4KVi6arliEG1X+13YmcD1cISL3Zz/qVJpo5Ymr38xP+yDfr27cO+kfuLyJ0l0wZOc9wWhaY8QAQq0zo44a89k8bdb3VyPDk4qIgJf6CCFBi+T4kUpvBn61NtGiGfcSpnPYk/QYHQNG5P6P3m+FXG6lqjqcjTd7KYHgeOUZBPZRNLB9f99hjicoKUl8RQfk+t7tPAuHtvjOp5IVnJAE9S22N3nv2kDnJrE0P8aQkZEBsnH9tVg9k3htEyHPY939hrfCJ2VfUPKQp5fJh5n74oH+Y+P7z9ZXkIxC62TVDwvQIl66i4wLyhrUlkiJ1VX63mFVpXcusHjcK83KJcCAwEAAaNhMF8wDgYDVR0PAQH/BAQDAgKkMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSv1CBk7XV+AHfbKVtgtULpScMvZjANBgkqhkiG9w0BAQsFAAOCAQEAimjVGI3Wn4wMVx0wt/Z/Z8YNYc/MIu1pe/+lKySkxBtvyw+UHql/YnFLLaEGr/UZRhKiN29L98LdKOoVayzScnkp92wTZyuhq3+zcxSzWLocKcmo2kUx1pa86+FVdxkG7xDHZQoRCUmnWnINaJiNpfZaiyEFUiQWV2fDqfqQT/CWFH/lbZex6LDtwVFFHVo34bWAG/lLNi+CK1Qefkoo2j2tcLdl/9uyv69TAIY7La71rTHF5Xnu76QnC50BKHaKLmJcWyYFLXKCDbDk0LdEDkVn8CTSli3sQUUE5hblt6sJziC3pU5Gg6lKbsLLZiV1NncZ7CLCd1FkLPBn12offA==', credentialsId: 'minikube-jenkins-secret', serverUrl: 'https://kubernetes.default.svc']) {
+        withKubeConfig([caCertificate: 'MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5pa3ViZUNBMB4XDTI0MDYzMDA4MjU0M1oXDTM0MDYyOTA4MjU0M1owFTETMBEGA1UEAxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMUDic/4KVi6arliEG1X+13YmcD1cISL3Zz/qVJpo5Ymr38xP+yDfr27cO+kfuLyJ0l0wZOc9wWhaY8QAQq0zo44a89k8bdb3VyPDk4qIgJf6CCFBi+T4kUpvBn61NtGiGfcSpnPYk/QYHQNG5P6P3m+FXG6lqjqcjTd7KYHgeOUZBPZRNLB9f99hjicoKUl8RQfk+t7tPAuHtvjOp5IVnJAE9S22N3nv2kDnJrE0P8aQkZEBsnH9tVg9k3htEyHPY939hrfCJ2VfUPKQp5fJh5n74oH+Y+P7z9ZXkIxC62TVDwvQIl66i4wLyhrUlkiJ1VX63mFVpXcusHjcK83KJcCAwEAAaNhMF8wDgYDVR0PAQH/BAQDAgKkMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSv1CBk7XV+AHfbKVtgtULpScMvZjANBgkqhkiG9w0BAQsFAAOCAQEAimjVGI3Wn4wMVx0wt/Z/Z8YNYc/MIu1pe/+lKySkxBtvyw+UHql/YnFLLaEGr/UZRhKiN29L98LdKOoVayzScnkp92wTZyuhq3+zcxSzWLocKcmo2kUx1pa86+FVdxkG7xDHZQoRCUmnWnINaJiNpfZaiyEFUiQWV2fDqfqQT/CWFH/lbZex6LDtwVFFHVo34bWAG/lLNi+CK1Qefkoo2j2tcLdl/9uyv69TAIY7La71rTHF5Xnu76QnC50BKHaKLmJcWyYFLXKCDbDk0LdEDkVn8CTSli3sQUUE5hblt6sJziC3pU5Gg6lKbsLLZiV1NncZ7CLCd1FkLPBn12offA==', credentialsId: '/var/run/secrets/kubernetes.io/serviceaccount/token', serverUrl: 'https://kubernetes.default.svc']) {
           sh 'cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
           sh 'ls -lrth /var/run/secrets/kubernetes.io/serviceaccount'
           sh 'cat /var/run/secrets/kubernetes.io/serviceaccount/token'
